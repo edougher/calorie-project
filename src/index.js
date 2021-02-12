@@ -86,7 +86,6 @@ handleCaloriesForm = (char) => {
     .then(newData => {
        const span = document.querySelector('span#calories')
        span.innerText = newData.calories
-        console.log(span)
     })
   })
 }
