@@ -14,6 +14,7 @@ fetchData = () =>{
         allCharInfo = charData
         charData.forEach(char => {
             createCharacterSpan(char)
+            
         });
     })
 }
@@ -30,7 +31,7 @@ handleSpanClick = () => {
     charBar.addEventListener('click', function(e){
         if(e.target.className === "char-span"){
             displayCharInfo(e)
-            //console.log(e.target) 
+            
         }
         
     })
@@ -40,6 +41,7 @@ handleSpanClick = () => {
 displayCharInfo = (e) =>{
     const charDetails = document.querySelector('#detailed-info')
     const char = allCharInfo.find(char => char.id == e.target.id)
+    const h4 = document.querySelector('h4')
     
     const details = `
     <p id="name">${char.name}</p>
@@ -54,6 +56,7 @@ displayCharInfo = (e) =>{
     `
     charDetails.innerHTML = details
     handleCaloriesForm(char)
+    //handleReset()
 }
 
 handleCaloriesForm = (char) => {
@@ -81,15 +84,11 @@ handleCaloriesForm = (char) => {
     fetch(`http://localhost:3000/characters/${char.id}`, reqObject)
     .then(resp => resp.json())
     .then(newData => {
-        //e.target['calories'].value = newData.calories
-        console.log(e.target.previousElementSibling.innerHTML.)
-        
+       const span = document.querySelector('span#calories')
+       span.innerText = newData.calories
+        console.log(span)
     })
-        
-        
-        
-    })
-
+  })
 }
 
 main()
