@@ -19,7 +19,7 @@ fetchData = () =>{
     })
 }
 
-createCharacterSpan = (char) =>{
+createCharacterSpan = char =>{
     const charBar = document.querySelector('#character-bar')
     const charSpan = `<span class="char-span" id="${char.id}">${char.name}</span>`
 
@@ -38,7 +38,7 @@ handleSpanClick = () => {
     
 }
 
-displayCharInfo = (e) =>{
+displayCharInfo = e =>{
     const charDetails = document.querySelector('#detailed-info')
     const char = allCharInfo.find(char => char.id == e.target.id)
     const h4 = document.querySelector('h4')
@@ -56,10 +56,10 @@ displayCharInfo = (e) =>{
     `
     charDetails.innerHTML = details
     handleCaloriesForm(char)
-    //handleReset()
+    
 }
 
-handleCaloriesForm = (char) => {
+handleCaloriesForm = char => {
     const form = document.querySelector('#calories-form')
     
     form.addEventListener('submit', function(e){
@@ -88,6 +88,33 @@ handleCaloriesForm = (char) => {
        span.innerText = newData.calories
     })
   })
+  handleReset(char)
+}
+
+handleReset = (char) => {
+    const charId = char.id
+    const reset = document.querySelector('#reset-btn')
+    reset.addEventListener('click', function(e){
+        let calories = e.path[1].childNodes[5].childNodes[1].innerText
+        const resetCalories = {
+            calories: 0
+        }
+        const reqObj = {
+            method: "PATCH",
+            headers: {
+            'content-type': 'application/json'
+        },
+            body: JSON.stringify(resetCalories)
+        }
+        fetch(`http://localhost:3000/characters/${charId}`, reqObj)
+        .then(resp => resp.json())
+        .then(newData => {
+             const span = document.querySelector('span#calories')
+             span.innerText = newData.calories
+        })
+
+    })
+
 }
 
 main()
